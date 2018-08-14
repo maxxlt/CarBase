@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">CarBase.</string>
+    <string name="logo">Carbase logo</string>
+    <string name="password_icon">Password Icon</string>
+    <string name="email_icon">Email Icon</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="btn_sign_in">Sign-in Button</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="remember_me_checkbox">Remember me</string>
+    <string name="prompt_full_name">Full Name</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="dont_have_account_sign_up_tx">Don\'t have account? Sign up.</string>
+    <string name="fb_sign_in">FB Sign In</string>
+    <string name="google_sign_in">google_sign_in</string>
+    <string name="beta_0_1_0">Beta 0.1.0</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_button">Sign Up Button</string>
+</resources>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "359814142915",
+    "firebase_url": "https://carbase-2018.firebaseio.com",
+    "project_id": "carbase-2018",
+    "storage_bucket": "carbase-2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359814142915:android:ca114f3170b7821a",
+        "android_client_info": {
+          "package_name": "ru.maxlt.carbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359814142915-599bjallqn3gsr5j3bl7o0vjp10p3g0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP93MNnddJLB5lgxmP5y5-7RVXyInrMwE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
