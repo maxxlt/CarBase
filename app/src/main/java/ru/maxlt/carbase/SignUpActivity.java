@@ -1,5 +1,6 @@
 package ru.maxlt.carbase;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -49,22 +50,32 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String confirmedPassword = mConfirmedPassword.getText().toString().trim();
 
-                mProgressBar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                setmProgressBar(View.VISIBLE);
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(SignUpActivity.this,"Account with email " + email + " has been created",Toast.LENGTH_SHORT).show();
-                        mProgressBar.setVisibility(View.GONE);
-                        if (!task.isSuccessful()){
-                            Toast.makeText(SignUpActivity.this,"Failed to create an account",Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-
+                        clearText();
+                        setmProgressBar(View.GONE);
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this, "Failed to create an account", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent mIntent = new Intent(this,)
                         }
                     }
                 });
 
             }
         });
+    }
+
+    private void clearText() {
+        mFullName.setText("");
+        mEmail.setText("");
+        mPassword.setText("");
+        mConfirmedPassword.setText("");
+    }
+
+    private void setmProgressBar(int visibility) {
+        mProgressBar.setVisibility(visibility);
     }
 }
