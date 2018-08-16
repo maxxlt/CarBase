@@ -157,6 +157,7 @@
         android:textSize="12sp"
         android:onClick="onSignUpTextClicked"
         android:background="?attr/selectableItemBackground"
+        android:theme="@style/MyTheme.SignUpExit"
         app:fontFamily="@font/roboto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
