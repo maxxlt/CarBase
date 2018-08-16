@@ -26,4 +26,7 @@
     <string name="beta_0_1_0">Beta 0.1.0</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_button">Sign Up Button</string>
+    <string name="sign_up_successful_sign">Sign Up Successful Sign</string>
+    <string name="sign_up_successful_text">Sign Up Successful Text</string>
+    <string name="continue_button_in_successful_activity">Continue Button in Successful Activity</string>
 </resources>

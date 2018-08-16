@@ -59,7 +59,9 @@ public class SignUpActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, "Failed to create an account", Toast.LENGTH_SHORT).show();
                         } else {
-                            Intent mIntent = new Intent(this,)
+                            Intent mIntent = new Intent(SignUpActivity.this,
+                                    SignUpSuccessfulActivity.class);
+                            startActivity(mIntent);
                         }
                     }
                 });
