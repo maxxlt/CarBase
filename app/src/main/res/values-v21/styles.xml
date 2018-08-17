@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="MyTheme" parent="AppTheme">
@@ -16,11 +15,5 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-    <style name="MyTheme.SignUpExit" parent="MyTheme">
-        <item name="android:windowExitTransition">
-            @transition/sign_up_exit
-        </item>
     </style>
 </resources>

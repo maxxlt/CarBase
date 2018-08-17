@@ -20,7 +20,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="dont_have_account_sign_up_tx">Don\'t have account? Sign up.</string>
+    <string name="dont_have_account_sign_up_tx"><u>Don\'t have account? Sign up.</u></string>
     <string name="fb_sign_in">FB Sign In</string>
     <string name="google_sign_in">google_sign_in</string>
     <string name="beta_0_1_0">Beta 0.1.0</string>

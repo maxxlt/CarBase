@@ -156,6 +156,7 @@
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:background="?attr/selectableItemBackground"
+        android:lineSpacingMultiplier="2"
         app:fontFamily="@font/roboto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

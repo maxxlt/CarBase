@@ -16,5 +16,6 @@ public class SignUpSuccessfulActivity extends AppCompatActivity {
     public void onContinueButtonClicked(View view) {
         Intent mIntent = new Intent(this,MainActivity.class);
         startActivity(mIntent);
+        overridePendingTransition(R.anim.slide_from_bottom,R.anim.slide_up);
     }
 }
