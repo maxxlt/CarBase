@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">CarBase.</string>
-    <string name="logo">Carbase logo</string>
+    <string name="logo">Carbase.</string>
     <string name="password_icon">Password Icon</string>
     <string name="email_icon">Email Icon</string>
     <string name="title_activity_login">Sign in</string>

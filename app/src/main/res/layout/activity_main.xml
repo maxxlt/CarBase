@@ -30,7 +30,7 @@
 
     <!--EMAIL INPUT LAYOUT-->
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/email_textinputlayout_main"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
         android:layout_marginEnd="8dp"
@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logo_iv">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/email_textedit_main"
             android:layout_width="327dp"
             android:layout_height="40dp"
             android:layout_marginTop="2dp"
@@ -56,7 +57,7 @@
 
     <!--PASSWORD INPUT LAYOUT-->
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout2"
+        android:id="@+id/password_textinputlayout_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -66,12 +67,13 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/email_textinputlayout_main"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/passive_password_toggle_color"
         app:passwordToggleDrawable="@drawable/password_selector">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_textedit_main"
             android:layout_width="327dp"
             android:layout_height="40dp"
             android:layout_marginTop="2dp"
@@ -100,7 +102,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/password_textinputlayout_main"
         app:layout_constraintVertical_bias="0.0" />
 
     <!--REMEMBER ME CHECKBOX-->
@@ -121,7 +123,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/password_textinputlayout_main"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -207,6 +209,21 @@
         android:layout_marginStart="8dp"
         android:text="@string/beta_0_1_0"
         app:fontFamily="@font/roboto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/sign_in_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

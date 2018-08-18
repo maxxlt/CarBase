@@ -9,6 +9,14 @@
     </style>
 
     <style name="MyTheme" parent="AppTheme">
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>
+
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>

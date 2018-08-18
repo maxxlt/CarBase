@@ -29,7 +29,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".SignUpSuccessfulActivity"></activity>
+        <activity android:name=".SignUpSuccessfulActivity" />
+        <activity android:name=".CarTypeSelectionActivity" />
+        <activity android:name=".ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>
