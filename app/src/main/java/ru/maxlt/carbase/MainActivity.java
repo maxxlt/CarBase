@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             mSignInProgressBar.setVisibility(View.GONE);
         } else if (!validatePassword(password)) {
             mPasswordInputLayout.setErrorEnabled(true);
-            mPasswordInputLayout.setError("Invalid password. Password should be more than 5 characters.");
+            mPasswordInputLayout.setError("Invalid password. Password should be more than ct5 characters.");
             mSignInProgressBar.setVisibility(View.GONE);
         } else {
             mEmailInputLayout.setErrorEnabled(false);

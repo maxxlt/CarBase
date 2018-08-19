@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                     mEmailTextLayout.setError("Invalid email. Please type again.");
                     setmProgressBar(View.GONE);
                 } else if (!validatePassword(password)) {
-                    mPasswordTextLayout.setError("Invalid password. Password should be more than 5 characters.");
+                    mPasswordTextLayout.setError("Invalid password. Password should be more than ct5 characters.");
                     setmProgressBar(View.GONE);
                 } else if (!validateConfirmedPassword(confirmedPassword, password)) {
                     mConfirmedPasswordTextLayout.setError("Invalid confirmed password. It must match your typed password.");

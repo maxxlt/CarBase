@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarTypeSelectionActivity"
+    android:background="@drawable/background"
     android:theme="@style/MyTheme"
-    android:background="@drawable/background">
+    android:orientation="vertical"
+    tools:context=".CarTypeSelectionActivity">
 
     <ImageView
-        android:transitionName="@string/logo"
         android:id="@+id/logo_iv_car_type"
         android:layout_width="130dp"
         android:layout_height="38dp"
@@ -18,30 +18,29 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/logo_title"
+        android:transitionName="@string/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:layout_width="331dp"
-        android:layout_height="488dp"
-        android:layout_marginBottom="8dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_iv">
+        android:layout_marginTop="32dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/car_type_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:requiresFadingEdge="vertical|horizontal"
+            android:fadingEdgeLength="5dp"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
             app:spanCount="2" />
-    </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+</LinearLayout>

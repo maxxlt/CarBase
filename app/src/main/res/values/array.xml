@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="carTypeList">
+        <item>My Favorites</item>
+        <item>Hatchback</item>
+        <item>SUV</item>
+        <item>Truck</item>
+        <item>Van</item>
+        <item>Sports Car</item>
+        <item>Coupe</item>
+        <item>Convertible</item>
+        <item>Sedan</item>
+        <item>Hybrid/Electric</item>
+    </string-array>
+</resources>
