@@ -28,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar mSignInProgressBar;
     @BindView(R.id.forgot_password_tv)
     TextView mForgotPasswordTV;
+    @BindView(R.id.google_sign_in_btn)
+    SignInButton mGoogleSignInBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         ButterKnife.bind(this);
+
+        //https://developers.google.com/identity/sign-in/android/sign-in
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+
 
         //https://stackoverflow.com/questions/9370293/add-a-remember-me-checkbox
         mLoginPreferences = getSharedPreferences("mLoginPreferences", MODE_PRIVATE);
