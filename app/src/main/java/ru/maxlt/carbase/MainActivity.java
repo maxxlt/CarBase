@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mFbSignInButton;
     @BindView(R.id.sign_in_progress_bar)
     ProgressBar mSignInProgressBar;
+    @BindView(R.id.forgot_password_tv)
+    TextView mForgotPasswordTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +147,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPasswordForgotten(View view) {
-        Toast.makeText(getBaseContext(), "Forgot password btn_sign_in_background clicked", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(MainActivity.this,ForgotPasswordActivity.class);
+
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(MainActivity.this,
+                        (View) mForgotPasswordTV,
+                        getResources().getString(R.string.forgot_password_transition_name));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, options.toBundle());
+        } else
+            startActivity(intent);
+
     }
 
     public void onRememberMeChecked(View view) {

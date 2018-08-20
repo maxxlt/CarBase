@@ -8,6 +8,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="remember_me_checkbox">Remember me</string>
     <string name="prompt_full_name">Full Name</string>
+    <string name="forgot_password_transition_name">Forgot password transition</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -29,4 +30,6 @@
     <string name="sign_up_successful_sign">Sign Up Successful Sign</string>
     <string name="sign_up_successful_text">Sign Up Successful Text</string>
     <string name="continue_button_in_successful_activity">Continue Button in Successful Activity</string>
+    <string name="enter_email_reset">ENTER EMAIL</string>
+    <string name="reset_button">Reset Button</string>
 </resources>
