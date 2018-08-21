@@ -198,6 +198,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/google_sign_in"
         android:src="@drawable/google_sign_in"
+        android:onClick="onGoogleSignInClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"

@@ -43,6 +43,7 @@ public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHold
         holder.mCarTypeIcon.setImageResource(resInt);
         holder.mCarTypeName.setText(nameString);
         //add Click Listener here
+
     }
 
     @Override

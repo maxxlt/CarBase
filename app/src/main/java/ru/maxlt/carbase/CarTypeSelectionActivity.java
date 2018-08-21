@@ -1,9 +1,13 @@
 package ru.maxlt.carbase;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,5 +54,12 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         String[] mStringArr = res.getStringArray(R.array.carTypeList);
         List<String> mNameList = new ArrayList<>(Arrays.asList(mStringArr));
         return mNameList;
+    }
+
+    public void onLogOutCLicked(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent mIntent = new Intent(this,MainActivity.class);
+        startActivity(mIntent);
+        overridePendingTransition(R.anim.slide_from_bottom,R.anim.slide_up);
     }
 }
