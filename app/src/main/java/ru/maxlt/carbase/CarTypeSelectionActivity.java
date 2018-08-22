@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import butterknife.ButterKnife;
 public class CarTypeSelectionActivity extends AppCompatActivity {
     @BindView(R.id.car_type_recycler_view)
     RecyclerView mCarTypeRV;
+    @BindView(R.id.log_out_btn_car_type)
+    Button mLogOutBtn;
 
 
     @Override
@@ -26,6 +30,8 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_type_selection);
         ButterKnife.bind(this);
+        if (FirebaseAuth.getInstance() == null && LoginManager.getInstance() == null)
+            mLogOutBtn.setVisibility(View.GONE);
         CarTypeAdapter mCarTypeAdapter = new CarTypeAdapter();
         mCarTypeAdapter.setmIconList(getIconList());
         mCarTypeAdapter.setmNameList(getNameList());
@@ -57,7 +63,6 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
     }
 
     public void onLogOutCLicked(View view) {
-        FirebaseAuth.getInstance().signOut();
         Intent mIntent = new Intent(this,MainActivity.class);
         startActivity(mIntent);
         overridePendingTransition(R.anim.slide_from_bottom,R.anim.slide_up);

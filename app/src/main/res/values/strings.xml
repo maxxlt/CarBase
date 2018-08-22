@@ -10,6 +10,7 @@
     <string name="prompt_full_name">Full Name</string>
     <string name="forgot_password_transition_name">Forgot password transition</string>
 
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -32,4 +33,6 @@
     <string name="continue_button_in_successful_activity">Continue Button in Successful Activity</string>
     <string name="enter_email_reset">ENTER EMAIL</string>
     <string name="reset_button">Reset Button</string>
+    <string name="facebook_app_id">299064224160393</string>
+    <string name="fb_login_protocol_scheme">fb299064224160393</string>
 </resources>
