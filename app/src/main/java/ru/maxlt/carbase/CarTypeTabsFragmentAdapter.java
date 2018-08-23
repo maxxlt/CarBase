@@ -1,8 +1,5 @@
 package ru.maxlt.carbase;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,49 +14,31 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHolder> {
-
-
+public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabsFragmentAdapter.ViewHolder> {
     private List<Integer> mIconList;
     private List<String> mNameList;
-    private Context context;
 
-    public CarTypeAdapter(Context context) {
-        this.context = context;
+    public void setmIconList(List<Integer> mIconList) {
+        this.mIconList = mIconList;
     }
 
     public void setmNameList(List<String> mNameList) {
         this.mNameList = mNameList;
     }
 
-    public void setmIconList(List<Integer> mIconList) {
-        this.mIconList = mIconList;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_type_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_car_type_tabs_material,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Integer resInt = mIconList.get(position);
         String nameString = mNameList.get(position);
         holder.mCarTypeIcon.setImageResource(resInt);
         holder.mCarTypeName.setText(nameString);
-        //add Click Listener here
-        holder.mCarTypeCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mIntent = new Intent(context,CarListActivity.class);
-                mIntent.putExtra("car_type_position",holder.getAdapterPosition());
-                //add animation here
-
-                context.startActivity(mIntent);
-            }
-        });
     }
 
     @Override
@@ -70,11 +49,11 @@ public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.car_type_cardview)
+        @BindView(R.id.car_type_cardview_tab)
         CardView mCarTypeCardView;
-        @BindView(R.id.car_type_name)
+        @BindView(R.id.car_type_name_tab)
         TextView mCarTypeName;
-        @BindView(R.id.car_type_icon)
+        @BindView(R.id.car_type_icon_tab)
         ImageView mCarTypeIcon;
 
         ViewHolder(View itemView) {

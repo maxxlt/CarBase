@@ -9,5 +9,10 @@ public class CarListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_list);
+        CarTypeTabsFragment mCarTypeTabsFragment = new CarTypeTabsFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.car_type_tabs,mCarTypeTabsFragment)
+                .commit();
     }
 }

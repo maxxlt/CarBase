@@ -32,7 +32,7 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         if (FirebaseAuth.getInstance() == null && LoginManager.getInstance() == null)
             mLogOutBtn.setVisibility(View.GONE);
-        CarTypeAdapter mCarTypeAdapter = new CarTypeAdapter();
+        CarTypeAdapter mCarTypeAdapter = new CarTypeAdapter(this);
         mCarTypeAdapter.setmIconList(getIconList());
         mCarTypeAdapter.setmNameList(getNameList());
         mCarTypeAdapter.notifyDataSetChanged();
