@@ -1,9 +1,17 @@
 package ru.maxlt.carbase;
 
 public class CarOverview {
-    private String car_body_type,car_fuel_type,car_image_overview,car_name,car_type;
+    private String car_body_type,car_fuel_type,car_image_overview,car_name,car_type,car_id;
 
     public CarOverview() {
+    }
+
+    public String getCar_id() {
+        return car_id;
+    }
+
+    public void setCar_id(String car_id) {
+        this.car_id = car_id;
     }
 
     public String getCar_body_type() {

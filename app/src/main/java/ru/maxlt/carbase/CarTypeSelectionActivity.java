@@ -5,24 +5,30 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CarTypeSelectionActivity extends AppCompatActivity {
+
+    private DatabaseReference mRef;
+
     @BindView(R.id.car_type_recycler_view)
     RecyclerView mCarTypeRV;
-    @BindView(R.id.log_out_btn_car_type)
-    Button mLogOutBtn;
 
 
     @Override
@@ -30,13 +36,27 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_type_selection);
         ButterKnife.bind(this);
-        if (FirebaseAuth.getInstance() == null && LoginManager.getInstance() == null)
-            mLogOutBtn.setVisibility(View.GONE);
         CarTypeAdapter mCarTypeAdapter = new CarTypeAdapter(this);
         mCarTypeAdapter.setmIconList(getIconList());
         mCarTypeAdapter.setmNameList(getNameList());
         mCarTypeAdapter.notifyDataSetChanged();
         mCarTypeRV.setAdapter(mCarTypeAdapter);
+        addUser();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    private void addUser() {
+        Intent mIntent = getIntent();
+        mRef = FirebaseDatabase.getInstance().getReference("users");
+        User user = new User(mIntent.getStringExtra("user_name"),mIntent.getStringExtra("user_id"));
+        mRef.child(mIntent.getStringExtra("user_id")).setValue(user);
+        Log.v("MyLog","user created: "+ user.getFull_name() +" "+user.getUser_id());
+
     }
 
     private List<Integer> getIconList() {

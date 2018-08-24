@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,9 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
                     mConfirmedPasswordTextLayout.setError("Invalid confirmed password. It must match your typed password.");
                     setmProgressBar(View.GONE);
                 } else {
-                   signUp(email,password);
+                    signUp(email, password, fullName);
                 }
-
             }
         });
     }
@@ -115,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity {
         return confirmedPassword.equals(password);
     }
 
-    private void signUp(String email, String password){
+    private void signUp(String email, String password, final String fullName) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -126,10 +129,15 @@ public class SignUpActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(SignUpActivity.this, "Failed to create an account", Toast.LENGTH_SHORT).show();
                 } else {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    UserProfileChangeRequest mRequest = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(fullName)
+                            .build();
+                    user.updateProfile(mRequest);
                     Intent mIntent = new Intent(SignUpActivity.this,
                             SignUpSuccessfulActivity.class);
                     startActivity(mIntent);
-                    overridePendingTransition(R.anim.slide_in_from_left,R.anim.slide_left);
+                    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_left);
                 }
             }
         });
@@ -138,6 +146,6 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_from_left,R.anim.slide_right);
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_right);
     }
 }

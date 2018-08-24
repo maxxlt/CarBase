@@ -20,6 +20,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
@@ -28,6 +29,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CarListFragment extends Fragment {
+
+    private DatabaseReference mRef;
+
     @BindView(R.id.fragment_car_list_recycler)
     RecyclerView mFragmentListRecycler;
 
@@ -63,9 +67,18 @@ public class CarListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Query mQuery = FirebaseDatabase.getInstance()
-                .getReference("car_overview").orderByChild("car_body_type");
+        mRef = FirebaseDatabase.getInstance().getReference("users");
 
+        int position = getArguments().getInt("car_type_position");
+        switch (position){
+            case 0: break;
+            case 1: break;
+            case 8:
+
+        }
+
+        Query mQuery = FirebaseDatabase.getInstance()
+                .getReference("car_overview");
         FirebaseRecyclerOptions<CarOverview> mOptions =
                 new FirebaseRecyclerOptions.Builder<CarOverview>()
                         .setQuery(mQuery, CarOverview.class)
@@ -77,7 +90,6 @@ public class CarListFragment extends Fragment {
                         Picasso.get().load(model.getCar_image_overview()).into(holder.mCarListIV);
                         holder.mCarNameTV.setText(model.getCar_name());
                         holder.mCarTypeTV.setText(model.getCar_type());
-                        Log.v("CarListFragment","car type is " + model.getCar_type());
                     }
 
                     @NonNull

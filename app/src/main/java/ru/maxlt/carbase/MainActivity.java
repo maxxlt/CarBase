@@ -46,6 +46,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 1;
     private CallbackManager mCallbackManager;
+    private DatabaseReference mRef;
 
     @BindView(R.id.remember_me_checkbox)
     CheckBox mRememberMeCheckbox;
@@ -214,9 +218,8 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "Signed In " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             mGoogleApiClient.clearDefaultAccountAndReconnect();
-                            signInAction();
+                            signInAction(user.getDisplayName(),user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -233,7 +236,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    signInAction();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    signInAction(user.getDisplayName(),user.getUid());
                 } else {
                     Toast.makeText(MainActivity.this, "Failed to sign in", Toast.LENGTH_SHORT).show();
                 }
@@ -244,14 +248,19 @@ public class MainActivity extends AppCompatActivity {
         mSignInProgressBar.setVisibility(View.GONE);
     }
 
-    private void signInAction() {
+    private void signInAction(String user, String uid) {
         Intent mIntent = new Intent(MainActivity.this,
                 CarTypeSelectionActivity.class);
+        mIntent.putExtra("user_name",user);
+        mIntent.putExtra("user_id",uid);
+        Log.v("MyLog","user name: "+ user + ", user id: "+ uid);
         //https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
         ActivityOptionsCompat options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(MainActivity.this,
                         (View) mImageView,
                         getResources().getString(R.string.logo));
+        Toast.makeText(MainActivity.this, "Signed is as " + user,
+                Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             startActivity(mIntent, options.toBundle());
         } else
@@ -354,9 +363,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "Welcome, " + user.getDisplayName() + "!",
-                                    Toast.LENGTH_SHORT).show();
-                            signInAction();
+                            signInAction(user.getDisplayName(),user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

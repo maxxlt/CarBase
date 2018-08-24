@@ -23,6 +23,11 @@ public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHold
     private List<Integer> mIconList;
     private List<String> mNameList;
     private Context context;
+    private String uID;
+
+    public void setuID(String uID) {
+        this.uID = uID;
+    }
 
     public CarTypeAdapter(Context context) {
         this.context = context;
@@ -55,6 +60,7 @@ public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHold
             public void onClick(View view) {
                 Intent mIntent = new Intent(context,CarListActivity.class);
                 mIntent.putExtra("car_type_position",holder.getAdapterPosition());
+                mIntent.putExtra("user_id",uID);
                 //add animation here
 
                 context.startActivity(mIntent);
