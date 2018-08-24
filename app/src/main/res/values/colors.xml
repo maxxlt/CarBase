@@ -9,4 +9,6 @@
     <color name="colorBackground">#ffffff</color>
     <color name="foreground_material_light">#ffffff</color>
     <color name="passive_password_toggle_color">#a0000000</color>
+    <color name="white_low_opacity">#3bffffff</color>
+    <color name="white_half_opacity">#7affffff</color>
 </resources>

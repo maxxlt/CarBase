@@ -14,13 +14,12 @@
         android:layout_margin="10dp"
         android:padding="2dp"
         card_view:cardCornerRadius="8dp"
-        card_view:cardElevation="8dp"
-        card_view:cardBackgroundColor="@color/colorPrimaryDark">
+        card_view:cardElevation="0dp"
+        card_view:cardBackgroundColor="@color/white_half_opacity">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/car_type_name_tab"
