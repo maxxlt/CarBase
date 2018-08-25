@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private CallbackManager mCallbackManager;
     private DatabaseReference mRef;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @BindView(R.id.remember_me_checkbox)
     CheckBox mRememberMeCheckbox;
@@ -134,12 +135,22 @@ public class MainActivity extends AppCompatActivity {
         Animation mLogoAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_from_left);
         mLogoAnimation.setDuration(1000);
         mImageView.startAnimation(mLogoAnimation);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() != null){
+                    signInAction(firebaseAuth.getCurrentUser().getDisplayName(),firebaseAuth.getUid());
+                }
+            }
+        };
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         fbLoginClicked = false;
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override

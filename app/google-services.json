@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "359814142915-q1euee4lhqetchfe0g7ua1fdtb3h728h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.maxlt.carbase",
+            "certificate_hash": "db950ff16c357943a7f161e15c83878ba9caa473"
+          }
+        },
+        {
+          "client_id": "359814142915-2hi8db6024simn2bns38iof1fbh2omkc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.maxlt.carbase",
+            "certificate_hash": "da14561a0027d8411d471fbdc7ccc12294744701"
+          }
+        },
+        {
           "client_id": "359814142915-599bjallqn3gsr5j3bl7o0vjp10p3g0b.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359814142915-599bjallqn3gsr5j3bl7o0vjp10p3g0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

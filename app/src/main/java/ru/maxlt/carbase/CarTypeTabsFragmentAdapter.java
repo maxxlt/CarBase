@@ -17,6 +17,18 @@ import butterknife.ButterKnife;
 public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabsFragmentAdapter.ViewHolder> {
     private List<Integer> mIconList;
     private List<String> mNameList;
+    private OnTabClickListener mTabClickListener;
+
+    public interface  OnTabClickListener {
+        void onTabClicked(int position);
+    }
+
+    public void setOnTabCLickListener(OnTabClickListener mTabClickListener){
+        this.mTabClickListener = mTabClickListener;
+    }
+
+    public CarTypeTabsFragmentAdapter() {
+    }
 
     public void setmIconList(List<Integer> mIconList) {
         this.mIconList = mIconList;
@@ -34,11 +46,19 @@ public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabs
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Integer resInt = mIconList.get(position);
         String nameString = mNameList.get(position);
         holder.mCarTypeIcon.setImageResource(resInt);
         holder.mCarTypeName.setText(nameString);
+        holder.mCarTypeCardView
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mTabClickListener.onTabClicked(holder.getAdapterPosition());
+                    }
+                });
+
     }
 
     @Override
@@ -61,4 +81,5 @@ public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabs
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

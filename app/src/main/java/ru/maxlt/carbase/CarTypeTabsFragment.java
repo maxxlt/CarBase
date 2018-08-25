@@ -1,11 +1,15 @@
 package ru.maxlt.carbase;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +23,46 @@ import butterknife.ButterKnife;
 
 public class CarTypeTabsFragment extends Fragment {
 
-    private List<Integer> mCarTabsList = new ArrayList<>();
+    AdapterTabClicked mAdapterTabClickedListener;
+    LinearLayoutManager mLayoutManager;
+    CarTypeTabsFragmentAdapter mCarTypeAdapter;
 
     @BindView(R.id.fragment_car_type_tabs_recycler)
     RecyclerView mCarTypeTabsRecycler;
+
+    public interface AdapterTabClicked{
+        void adapterTabClicked(int position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mAdapterTabClickedListener = (AdapterTabClicked) context;
+        } catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " must implement adapterTabClicked");
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_car_type_tabs,container,false);
         ButterKnife.bind(this,rootView);
-        CarTypeTabsFragmentAdapter mCarTypeAdapter = new CarTypeTabsFragmentAdapter();
+        mCarTypeAdapter = new CarTypeTabsFragmentAdapter();
         mCarTypeAdapter.setmNameList(getNameList());
         mCarTypeAdapter.setmIconList(getIconList());
         mCarTypeAdapter.notifyDataSetChanged();
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mCarTypeAdapter.setOnTabCLickListener(new CarTypeTabsFragmentAdapter.OnTabClickListener() {
+            @Override
+            public void onTabClicked(int position) {
+                mAdapterTabClickedListener.adapterTabClicked(position);
+            }
+        });
+
         mCarTypeTabsRecycler.setAdapter(mCarTypeAdapter);
         mCarTypeTabsRecycler.setLayoutManager(mLayoutManager);
         return rootView;
@@ -63,16 +91,8 @@ public class CarTypeTabsFragment extends Fragment {
         return mNameList;
     }
 
-    private void getCarTabsDrawables() {
-        mCarTabsList.add(R.drawable.car_type_tab_0);
-        mCarTabsList.add(R.drawable.car_type_tab_1);
-        mCarTabsList.add(R.drawable.car_type_tab_2);
-        mCarTabsList.add(R.drawable.car_type_tab_3);
-        mCarTabsList.add(R.drawable.car_type_tab_4);
-        mCarTabsList.add(R.drawable.car_type_tab_5);
-        mCarTabsList.add(R.drawable.car_type_tab_6);
-        mCarTabsList.add(R.drawable.car_type_tab_7);
-        mCarTabsList.add(R.drawable.car_type_tab_8);
-        mCarTabsList.add(R.drawable.car_type_tab_9);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 }

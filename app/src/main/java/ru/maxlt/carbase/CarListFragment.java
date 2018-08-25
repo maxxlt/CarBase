@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -41,7 +42,6 @@ public class CarListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_car_list, container, false);
         ButterKnife.bind(this, rootView);
-
 
         return rootView;
     }
@@ -67,18 +67,15 @@ public class CarListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mRef = FirebaseDatabase.getInstance().getReference("users");
 
-        int position = getArguments().getInt("car_type_position");
-        switch (position){
-            case 0: break;
-            case 1: break;
-            case 8:
-
+        int position = 0;
+        String uID = "";
+        if (getArguments() != null) {
+            position = getArguments().getInt("car_type_position");
+            uID = getArguments().getString("user_id");
         }
+        Query mQuery = getQuery(position,uID);
 
-        Query mQuery = FirebaseDatabase.getInstance()
-                .getReference("car_overview");
         FirebaseRecyclerOptions<CarOverview> mOptions =
                 new FirebaseRecyclerOptions.Builder<CarOverview>()
                         .setQuery(mQuery, CarOverview.class)
@@ -102,5 +99,21 @@ public class CarListFragment extends Fragment {
         mFragmentListRecycler.setAdapter(mFirebaseRecyclerAdapter);
         mFirebaseRecyclerAdapter.startListening();
         mFragmentListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private Query getQuery(int position, String uID) {
+        switch (position){
+            case 0: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("users/"+uID).equalTo(true);
+            case 1: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Hatchback");
+            case 2: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("SUV");
+            case 3: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Truck");
+            case 4: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Van");
+            case 5: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Sports Car");
+            case 6: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Coupe");
+            case 7: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Convertible");
+            case 8: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_body_type").equalTo("Sedan");
+            case 9: return FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_fuel_type").equalTo("Hybrid/Electric");
+            default: return FirebaseDatabase.getInstance().getReference("car_overview");
+        }
     }
 }

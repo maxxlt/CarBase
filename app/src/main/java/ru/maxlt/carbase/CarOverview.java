@@ -1,8 +1,9 @@
 package ru.maxlt.carbase;
 
-public class CarOverview {
-    private String car_body_type,car_fuel_type,car_image_overview,car_name,car_type,car_id;
+import java.util.HashMap;
 
+public class CarOverview {
+    private String car_body_type, car_fuel_type, car_image_overview, car_name, car_type, car_id;
     public CarOverview() {
     }
 

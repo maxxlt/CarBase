@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 public class CarTypeSelectionActivity extends AppCompatActivity {
 
     private DatabaseReference mRef;
+    private FirebaseAuth mAuth;
 
     @BindView(R.id.car_type_recycler_view)
     RecyclerView mCarTypeRV;
@@ -36,13 +38,13 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_type_selection);
         ButterKnife.bind(this);
+        mAuth = FirebaseAuth.getInstance();
         CarTypeAdapter mCarTypeAdapter = new CarTypeAdapter(this);
         mCarTypeAdapter.setmIconList(getIconList());
         mCarTypeAdapter.setmNameList(getNameList());
+        addUser(mCarTypeAdapter);
         mCarTypeAdapter.notifyDataSetChanged();
         mCarTypeRV.setAdapter(mCarTypeAdapter);
-        addUser();
-
     }
 
     @Override
@@ -50,13 +52,13 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private void addUser() {
+    private void addUser(CarTypeAdapter mAdapter) {
         Intent mIntent = getIntent();
         mRef = FirebaseDatabase.getInstance().getReference("users");
         User user = new User(mIntent.getStringExtra("user_name"),mIntent.getStringExtra("user_id"));
         mRef.child(mIntent.getStringExtra("user_id")).setValue(user);
-        Log.v("MyLog","user created: "+ user.getFull_name() +" "+user.getUser_id());
-
+        mAdapter.setuID(user.getUser_id());
+        Log.v("MyLog","user ID passed: " +user.getUser_id());
     }
 
     private List<Integer> getIconList() {
@@ -83,8 +85,14 @@ public class CarTypeSelectionActivity extends AppCompatActivity {
     }
 
     public void onLogOutCLicked(View view) {
+        mAuth.signOut();
         Intent mIntent = new Intent(this,MainActivity.class);
         startActivity(mIntent);
         overridePendingTransition(R.anim.slide_from_bottom,R.anim.slide_up);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this,"Please use \"Log Out\" instead.",Toast.LENGTH_LONG).show();
     }
 }
