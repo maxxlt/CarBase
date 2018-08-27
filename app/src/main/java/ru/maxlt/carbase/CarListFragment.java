@@ -1,6 +1,7 @@
 package ru.maxlt.carbase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -87,6 +88,13 @@ public class CarListFragment extends Fragment {
                         Picasso.get().load(model.getCar_image_overview()).into(holder.mCarListIV);
                         holder.mCarNameTV.setText(model.getCar_name());
                         holder.mCarTypeTV.setText(model.getCar_type());
+                        holder.mCarListCardView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getContext(),CarDetailActivity.class);
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @NonNull

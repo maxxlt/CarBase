@@ -54,7 +54,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".CarListActivity"></activity>
+        <activity android:name=".CarListActivity" />
+        <activity android:name=".CarDetailActivity"></activity>
     </application>
 
 </manifest>

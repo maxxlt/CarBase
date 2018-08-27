@@ -35,4 +35,5 @@
     <string name="reset_button">Reset Button</string>
     <string name="facebook_app_id">299064224160393</string>
     <string name="fb_login_protocol_scheme">fb299064224160393</string>
+    <string name="car_background_image">Car Background Image</string>
 </resources>
