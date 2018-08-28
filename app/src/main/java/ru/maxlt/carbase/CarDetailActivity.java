@@ -15,7 +15,7 @@ public class CarDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.engineering_mechanical_hidden_layout)
     ConstraintLayout mHiddenConstraintLayout;
-    @BindView(R.id.expand_collapse_btn)
+    @BindView(R.id.expand_collapse_btn_1)
     ToggleButton mExpandCollapseBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

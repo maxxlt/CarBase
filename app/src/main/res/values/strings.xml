@@ -36,4 +36,17 @@
     <string name="facebook_app_id">299064224160393</string>
     <string name="fb_login_protocol_scheme">fb299064224160393</string>
     <string name="car_background_image">Car Background Image</string>
+    <string name="beaten_msrp">Beaten MSRP</string>
+    <string name="msrp">MSRP</string>
+    <string name="prices_title">Prices</string>
+    <string name="design_features_title">Design/Features</string>
+    <string name="interior_color">Interior Color</string>
+    <string name="exterior_color">Exterior Color</string>
+    <string name="features">Features</string>
+    <string name="mechanical_performance_title">Mechanical/Performance</string>
+    <string name="power">Power</string>
+    <string name="drive_type">Drive Type</string>
+    <string name="mpg">MPG</string>
+    <string name="capacity">Capacity</string>
+    <string name="transmission">Transmission</string>
 </resources>
