@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,7 +85,7 @@ public class CarListFragment extends Fragment {
         FirebaseRecyclerAdapter mFirebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<CarOverview, ViewHolder>(mOptions) {
                     @Override
-                    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull CarOverview model) {
+                    protected void onBindViewHolder(@NonNull final ViewHolder holder, int position, @NonNull final CarOverview model) {
                         Picasso.get().load(model.getCar_image_overview()).into(holder.mCarListIV);
                         holder.mCarNameTV.setText(model.getCar_name());
                         holder.mCarTypeTV.setText(model.getCar_type());
@@ -92,6 +93,7 @@ public class CarListFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(getContext(),CarDetailActivity.class);
+                                intent.putExtra("car_id",model.getCar_id());
                                 startActivity(intent);
                             }
                         });
