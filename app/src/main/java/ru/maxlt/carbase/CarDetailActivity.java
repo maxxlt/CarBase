@@ -125,4 +125,7 @@ public class CarDetailActivity extends AppCompatActivity {
         } else
             mHiddenConstraintLayout2.setVisibility(View.GONE);
     }
+
+    public void onExpandCollapseButtonClicked3(View view) {
+    }
 }
