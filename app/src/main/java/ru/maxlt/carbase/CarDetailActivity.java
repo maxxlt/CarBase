@@ -25,12 +25,15 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class CarDetailActivity extends AppCompatActivity {
 
     CarDetail mCarDetail;
     CarOverview mCarOverview;
-    Query mQueryOverview, mQueryDetail;
+    UserReview mUserReview;
+    Query mQueryOverview, mQueryDetail, mQueryReview;
     @BindView(R.id.engineering_mechanical_hidden_layout)
     ConstraintLayout mHiddenConstraintLayout;
     @BindView(R.id.expand_collapse_btn)
@@ -63,6 +66,12 @@ public class CarDetailActivity extends AppCompatActivity {
     Toolbar mToolbarTitle;
     @BindView(R.id.car_background_iv)
     ImageView mCarBackgroundIV;
+    @BindView(R.id.user_rating_bar)
+    MaterialRatingBar mRatingBar;
+    @BindView(R.id.user_thumbnail_civ)
+    CircleImageView mUserThumbnail;
+    @BindView(R.id.user_review_tv)
+    TextView mUserComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,7 @@ public class CarDetailActivity extends AppCompatActivity {
 
         mQueryOverview = FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_id").equalTo(car_id);
         mQueryDetail = FirebaseDatabase.getInstance().getReference("car_details").orderByChild("car_id").equalTo(car_id);
+        mQueryReview = FirebaseDatabase.getInstance().getReference("reviews").orderByChild("car_id").equalTo(car_id);
         mQueryOverview.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,8 +109,6 @@ public class CarDetailActivity extends AppCompatActivity {
                         populateDetail();
                     }
                 }
-
-
             }
 
             @Override
@@ -108,7 +116,41 @@ public class CarDetailActivity extends AppCompatActivity {
                 Log.v("CarDetailActivity", "failed to read " + databaseError.getCode());
             }
         });
+        mQueryReview.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        DataSnapshot mSnapshot = snapshot.child("users");
+                        for (DataSnapshot userSnapshot : mSnapshot.getChildren()){
+                            mUserReview = userSnapshot.getValue(UserReview.class);
+                            if (mUserReview.getUser_order() == 0){
+                                populateFirstReview();
+                            }
+                            else
+                                populateOtherReviews();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
+
+    private void populateOtherReviews() {
+    }
+
+    private void populateFirstReview() {
+        Picasso.get().load(mUserReview.getThumbnail()).into(mUserThumbnail);
+        mRatingBar.setRating(mUserReview.getStars());
+        Log.v("mLog"," "+mUserReview.getStars());
+        mUserComment.setText(mUserReview.getComment());
+    }
+
     private void populateOverview(){
         Picasso.get().load(mCarOverview.getCar_image_overview()).into(mCarBackgroundIV);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
