@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,6 +25,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,6 +39,8 @@ public class CarDetailActivity extends AppCompatActivity {
     CarOverview mCarOverview;
     UserReview mUserReview;
     Query mQueryOverview, mQueryDetail, mQueryReview;
+    @BindView(R.id.reviews_recycler_view)
+    RecyclerView mReviewsRV;
     @BindView(R.id.engineering_mechanical_hidden_layout)
     ConstraintLayout mHiddenConstraintLayout;
     @BindView(R.id.expand_collapse_btn)
@@ -120,6 +127,7 @@ public class CarDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
+                    List<UserReview> mUserReviewList = new ArrayList<>();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         DataSnapshot mSnapshot = snapshot.child("users");
                         for (DataSnapshot userSnapshot : mSnapshot.getChildren()){
@@ -127,9 +135,11 @@ public class CarDetailActivity extends AppCompatActivity {
                             if (mUserReview.getUser_order() == 0){
                                 populateFirstReview();
                             }
-                            else
-                                populateOtherReviews();
+                            else {
+                                mUserReviewList.add(mUserReview);
+                            }
                         }
+                        populateOtherReviews(mUserReviewList);
                     }
                 }
             }
@@ -141,7 +151,9 @@ public class CarDetailActivity extends AppCompatActivity {
 
     }
 
-    private void populateOtherReviews() {
+    private void populateOtherReviews(List<UserReview> mUserReviewList) {
+        CarReviewsAdapter mCarReviewsAdapter = new CarReviewsAdapter(mUserReviewList);
+        mReviewsRV.setAdapter(mCarReviewsAdapter);
     }
 
     private void populateFirstReview() {
