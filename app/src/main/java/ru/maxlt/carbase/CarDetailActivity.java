@@ -49,6 +49,10 @@ public class CarDetailActivity extends AppCompatActivity {
     ToggleButton mExpandCollapseBtn2;
     @BindView(R.id.design_features_hidden_layout)
     ConstraintLayout mHiddenConstraintLayout2;
+    @BindView(R.id.expand_collapse_btn_3)
+    ToggleButton mExpandCollapseBtn3;
+    @BindView(R.id.reviews_hidden_layout)
+    ConstraintLayout mHiddenConstraintLayout3;
     @BindView(R.id.power_tv)
     TextView mPowerTV;
     @BindView(R.id.drive_type_tv)
@@ -189,7 +193,7 @@ public class CarDetailActivity extends AppCompatActivity {
         mExpandCollapseBtn.setPressed(false);
     }
 
-    public void onExpandCollapseButtonClicked(View view) {
+    public void onExpandCollapseButtonMechanicalClicked(View view) {
 
         if (mExpandCollapseBtn.isChecked()) {
             mHiddenConstraintLayout.setVisibility(View.VISIBLE);
@@ -197,13 +201,17 @@ public class CarDetailActivity extends AppCompatActivity {
             mHiddenConstraintLayout.setVisibility(View.GONE);
     }
 
-    public void onExpandCollapseButtonClicked2(View view) {
+    public void onExpandCollapseButtonDesignClicked(View view) {
         if (mExpandCollapseBtn2.isChecked()) {
             mHiddenConstraintLayout2.setVisibility(View.VISIBLE);
         } else
             mHiddenConstraintLayout2.setVisibility(View.GONE);
     }
 
-    public void onExpandCollapseButtonClicked3(View view) {
+    public void onExpandCollapseButtonReview(View view) {
+        if (mExpandCollapseBtn3.isChecked()){
+            mHiddenConstraintLayout3.setVisibility(View.VISIBLE);
+        } else
+            mHiddenConstraintLayout3.setVisibility(View.GONE);
     }
 }
