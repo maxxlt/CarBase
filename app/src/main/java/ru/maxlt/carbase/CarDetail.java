@@ -1,9 +1,9 @@
 package ru.maxlt.carbase;
 
 public class CarDetail {
-    private String beaten_price_msrp, capacity, car_id, convenience, drive_type, engine, exterior_color, interior_color, mpg, price_msrp, production_link, production_video_name, test_drive_link, test_drive_video_name, transmission;
+    private String beaten_price_msrp, capacity, car_id, convenience, drive_type, engine, exterior_color, interior_color, mpg, price_msrp, test_drive_link, transmission;
 
-    public CarDetail(String beaten_price_msrp, String capacity, String car_id, String convenience, String drive_type, String engine, String exterior_color, String interior_color, String mpg, String price_msrp, String production_link, String production_video_name, String test_drive_link, String test_drive_video_name, String transmission) {
+    public CarDetail(String beaten_price_msrp, String capacity, String car_id, String convenience, String drive_type, String engine, String exterior_color, String interior_color, String mpg, String price_msrp, String test_drive_link, String transmission) {
         this.beaten_price_msrp = beaten_price_msrp;
         this.capacity = capacity;
         this.car_id = car_id;
@@ -14,10 +14,7 @@ public class CarDetail {
         this.interior_color = interior_color;
         this.mpg = mpg;
         this.price_msrp = price_msrp;
-        this.production_link = production_link;
-        this.production_video_name = production_video_name;
         this.test_drive_link = test_drive_link;
-        this.test_drive_video_name = test_drive_video_name;
         this.transmission = transmission;
     }
 
@@ -104,36 +101,12 @@ public class CarDetail {
         this.price_msrp = price_msrp;
     }
 
-    public String getProduction_link() {
-        return production_link;
-    }
-
-    public void setProduction_link(String production_link) {
-        this.production_link = production_link;
-    }
-
-    public String getProduction_video_name() {
-        return production_video_name;
-    }
-
-    public void setProduction_video_name(String production_video_name) {
-        this.production_video_name = production_video_name;
-    }
-
     public String getTest_drive_link() {
         return test_drive_link;
     }
 
     public void setTest_drive_link(String test_drive_link) {
         this.test_drive_link = test_drive_link;
-    }
-
-    public String getTest_drive_video_name() {
-        return test_drive_video_name;
-    }
-
-    public void setTest_drive_video_name(String test_drive_video_name) {
-        this.test_drive_video_name = test_drive_video_name;
     }
 
     public String getTransmission() {

@@ -1,4 +1,5 @@
 <resources>
+    <string name="my_youtube_api">AIzaSyB2HEe0sOrK6gAPJ44GepDtSn90ub42fw0</string>
     <string name="app_name">CarBase.</string>
     <string name="logo">Carbase.</string>
     <string name="password_icon">Password Icon</string>

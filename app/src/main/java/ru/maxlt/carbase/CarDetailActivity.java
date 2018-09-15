@@ -17,6 +17,11 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +38,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class CarDetailActivity extends AppCompatActivity {
+public class CarDetailActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
 
     CarDetail mCarDetail;
     CarOverview mCarOverview;
@@ -91,6 +96,7 @@ public class CarDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent mIntent = getIntent();
         String car_id = mIntent.getStringExtra("car_id");
+        YouTubePlayerFragment mTrailerVideoFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.trailer_video_fragment);
 
         mQueryOverview = FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_id").equalTo(car_id);
         mQueryDetail = FirebaseDatabase.getInstance().getReference("car_details").orderByChild("car_id").equalTo(car_id);
@@ -98,8 +104,8 @@ public class CarDetailActivity extends AppCompatActivity {
         mQueryOverview.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         mCarOverview = snapshot.getValue(CarOverview.class);
                         populateOverview();
                     }
@@ -114,8 +120,8 @@ public class CarDetailActivity extends AppCompatActivity {
         mQueryDetail.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         mCarDetail = snapshot.getValue(CarDetail.class);
                         populateDetail();
                     }
@@ -130,16 +136,15 @@ public class CarDetailActivity extends AppCompatActivity {
         mQueryReview.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     List<UserReview> mUserReviewList = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         DataSnapshot mSnapshot = snapshot.child("users");
-                        for (DataSnapshot userSnapshot : mSnapshot.getChildren()){
+                        for (DataSnapshot userSnapshot : mSnapshot.getChildren()) {
                             mUserReview = userSnapshot.getValue(UserReview.class);
-                            if (mUserReview.getUser_order() == 0){
+                            if (mUserReview.getUser_order() == 0) {
                                 populateFirstReview();
-                            }
-                            else {
+                            } else {
                                 mUserReviewList.add(mUserReview);
                             }
                         }
@@ -152,7 +157,7 @@ public class CarDetailActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
+        mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api),this);
     }
 
     private void populateOtherReviews(List<UserReview> mUserReviewList) {
@@ -163,11 +168,11 @@ public class CarDetailActivity extends AppCompatActivity {
     private void populateFirstReview() {
         Picasso.get().load(mUserReview.getThumbnail()).into(mUserThumbnail);
         mRatingBar.setRating(mUserReview.getStars());
-        Log.v("mLog"," "+mUserReview.getStars());
+        Log.v("mLog", " " + mUserReview.getStars());
         mUserComment.setText(mUserReview.getComment());
     }
 
-    private void populateOverview(){
+    private void populateOverview() {
         Picasso.get().load(mCarOverview.getCar_image_overview()).into(mCarBackgroundIV);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mToolbarTitle.setTitle(mCarOverview.getCar_name());
@@ -193,6 +198,11 @@ public class CarDetailActivity extends AppCompatActivity {
         mExpandCollapseBtn.setPressed(false);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
     public void onExpandCollapseButtonMechanicalClicked(View view) {
 
         if (mExpandCollapseBtn.isChecked()) {
@@ -209,9 +219,25 @@ public class CarDetailActivity extends AppCompatActivity {
     }
 
     public void onExpandCollapseButtonReview(View view) {
-        if (mExpandCollapseBtn3.isChecked()){
+        if (mExpandCollapseBtn3.isChecked()) {
             mHiddenConstraintLayout3.setVisibility(View.VISIBLE);
         } else
             mHiddenConstraintLayout3.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        if (!b)
+            youTubePlayer.cueVideo(mCarDetail.getTest_drive_link());
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, 1).show();
+        } else {
+            String errorMessage = String.format("There was an error initializing the YouTubePlayer (%1$s)", youTubeInitializationResult.toString());
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        }
     }
 }
