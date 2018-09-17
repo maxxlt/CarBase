@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -94,6 +95,7 @@ public class CarListFragment extends Fragment {
                             public void onClick(View v) {
                                 Intent intent = new Intent(getContext(),CarDetailActivity.class);
                                 intent.putExtra("car_id",model.getCar_id());
+                                intent.putExtra("user_id",getArguments().getString("user_id"));
                                 startActivity(intent);
                             }
                         });

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +45,7 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
     CarOverview mCarOverview;
     UserReview mUserReview;
     Query mQueryOverview, mQueryDetail, mQueryReview;
+    String user_id;
     @BindView(R.id.reviews_recycler_view)
     RecyclerView mReviewsRV;
     @BindView(R.id.engineering_mechanical_hidden_layout)
@@ -88,6 +90,10 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
     CircleImageView mUserThumbnail;
     @BindView(R.id.user_review_tv)
     TextView mUserComment;
+    @BindView(R.id.favorite_floating_button)
+    FloatingActionButton mFavoriteBtn;
+    @BindView(R.id.cancel_favorite_floating_button)
+    FloatingActionButton mCancelFavoriteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +102,54 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
         ButterKnife.bind(this);
         Intent mIntent = getIntent();
         String car_id = mIntent.getStringExtra("car_id");
+        user_id = mIntent.getStringExtra("user_id");
+
         YouTubePlayerFragment mTrailerVideoFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.trailer_video_fragment);
 
         mQueryOverview = FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_id").equalTo(car_id);
         mQueryDetail = FirebaseDatabase.getInstance().getReference("car_details").orderByChild("car_id").equalTo(car_id);
         mQueryReview = FirebaseDatabase.getInstance().getReference("reviews").orderByChild("car_id").equalTo(car_id);
+
+        mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api), this);
+    }
+
+
+    private void populateOtherReviews(List<UserReview> mUserReviewList) {
+        CarReviewsAdapter mCarReviewsAdapter = new CarReviewsAdapter(mUserReviewList);
+        mReviewsRV.setAdapter(mCarReviewsAdapter);
+    }
+
+    private void populateFirstReview() {
+        Picasso.get().load(mUserReview.getThumbnail()).into(mUserThumbnail);
+        mRatingBar.setRating(mUserReview.getStars());
+        Log.v("mLog", " " + mUserReview.getStars());
+        mUserComment.setText(mUserReview.getComment());
+    }
+
+    private void populateOverview() {
+        Picasso.get().load(mCarOverview.getCar_image_overview()).into(mCarBackgroundIV);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbarTitle.setTitle(mCarOverview.getCar_name());
+        }
+    }
+
+    private void populateDetail() {
+        mPowerTV.setText(mCarDetail.getEngine());
+        mDriveTypeTV.setText(mCarDetail.getDrive_type());
+        mMpgTV.setText(mCarDetail.getMpg());
+        mCapacityTV.setText(mCarDetail.getCapacity());
+        mTransmissionTV.setText(mCarDetail.getTransmission());
+        mInteriorColorTV.setText(mCarDetail.getInterior_color());
+        mExteriorColorTV.setText(mCarDetail.getExterior_color());
+        mFeaturesTV.setText(mCarDetail.getConvenience());
+        mMsrpTV.setText(mCarDetail.getPrice_msrp());
+        mBeatenMsrpTV.setText(mCarDetail.getBeaten_price_msrp());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mExpandCollapseBtn.setPressed(false);
         mQueryOverview.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -108,6 +157,15 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         mCarOverview = snapshot.getValue(CarOverview.class);
                         populateOverview();
+                        //CHECKING IF USER FAVORITE-D THE CAR
+                        if (snapshot.hasChild("users/"+user_id)){
+                            mFavoriteBtn.setVisibility(View.GONE);
+                            mCancelFavoriteBtn.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            mFavoriteBtn.setVisibility(View.VISIBLE);
+                            mCancelFavoriteBtn.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -157,45 +215,7 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api),this);
-    }
 
-    private void populateOtherReviews(List<UserReview> mUserReviewList) {
-        CarReviewsAdapter mCarReviewsAdapter = new CarReviewsAdapter(mUserReviewList);
-        mReviewsRV.setAdapter(mCarReviewsAdapter);
-    }
-
-    private void populateFirstReview() {
-        Picasso.get().load(mUserReview.getThumbnail()).into(mUserThumbnail);
-        mRatingBar.setRating(mUserReview.getStars());
-        Log.v("mLog", " " + mUserReview.getStars());
-        mUserComment.setText(mUserReview.getComment());
-    }
-
-    private void populateOverview() {
-        Picasso.get().load(mCarOverview.getCar_image_overview()).into(mCarBackgroundIV);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mToolbarTitle.setTitle(mCarOverview.getCar_name());
-        }
-    }
-
-    private void populateDetail() {
-        mPowerTV.setText(mCarDetail.getEngine());
-        mDriveTypeTV.setText(mCarDetail.getDrive_type());
-        mMpgTV.setText(mCarDetail.getMpg());
-        mCapacityTV.setText(mCarDetail.getCapacity());
-        mTransmissionTV.setText(mCarDetail.getTransmission());
-        mInteriorColorTV.setText(mCarDetail.getInterior_color());
-        mExteriorColorTV.setText(mCarDetail.getExterior_color());
-        mFeaturesTV.setText(mCarDetail.getConvenience());
-        mMsrpTV.setText(mCarDetail.getPrice_msrp());
-        mBeatenMsrpTV.setText(mCarDetail.getBeaten_price_msrp());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mExpandCollapseBtn.setPressed(false);
     }
 
     @Override
@@ -228,6 +248,7 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if (!b)
+
             youTubePlayer.cueVideo(mCarDetail.getTest_drive_link());
     }
 
@@ -239,5 +260,16 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
             String errorMessage = String.format("There was an error initializing the YouTubePlayer (%1$s)", youTubeInitializationResult.toString());
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onFavoriteFABClicked(View view) {
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/"+mCarOverview.getCar_id()+"/users/"+user_id);
+        mRef.setValue(Boolean.TRUE);
+
+    }
+
+    public void onCancelFavoriteFABClicked(View view) {
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/"+mCarOverview.getCar_id()+"/users/"+user_id);
+        mRef.removeValue();
     }
 }
