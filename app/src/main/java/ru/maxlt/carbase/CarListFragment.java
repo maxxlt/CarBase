@@ -99,6 +99,7 @@ public class CarListFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
+
                     }
 
                     @NonNull
@@ -108,6 +109,7 @@ public class CarListFragment extends Fragment {
                         return new ViewHolder(view);
                     }
                 };
+        mQuery.keepSynced(true);
         mFragmentListRecycler.setAdapter(mFirebaseRecyclerAdapter);
         mFirebaseRecyclerAdapter.startListening();
         mFragmentListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));

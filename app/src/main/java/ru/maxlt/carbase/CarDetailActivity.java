@@ -107,8 +107,11 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
         YouTubePlayerFragment mTrailerVideoFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.trailer_video_fragment);
 
         mQueryOverview = FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_id").equalTo(car_id);
+        mQueryOverview.keepSynced(true);
         mQueryDetail = FirebaseDatabase.getInstance().getReference("car_details").orderByChild("car_id").equalTo(car_id);
+        mQueryDetail.keepSynced(true);
         mQueryReview = FirebaseDatabase.getInstance().getReference("reviews").orderByChild("car_id").equalTo(car_id);
+        mQueryReview.keepSynced(true);
 
         mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api), this);
     }
