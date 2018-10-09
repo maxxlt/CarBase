@@ -1,4 +1,4 @@
-package ru.maxlt.carbase;
+package ru.maxlt.carbase.data;
 
 public class CarDetail {
     private String beaten_price_msrp, capacity, car_id, convenience, drive_type, engine, exterior_color, interior_color, mpg, price_msrp, test_drive_link, transmission;

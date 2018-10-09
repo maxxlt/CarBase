@@ -1,4 +1,4 @@
-package ru.maxlt.carbase;
+package ru.maxlt.carbase.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import ru.maxlt.carbase.R;
+import ru.maxlt.carbase.data.UserReview;
 
 public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.ViewHolder> {
     private List<UserReview> userReviewList;

@@ -1,29 +1,25 @@
 package ru.maxlt.carbase;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.support.v7.widget.Toolbar;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,14 +35,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import ru.maxlt.carbase.data.CarDetail;
+import ru.maxlt.carbase.data.CarOverview;
+import ru.maxlt.carbase.data.UserReview;
+import ru.maxlt.carbase.ui.CarReviewsAdapter;
 
-public class CarDetailActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
+public class CarDetailActivity extends AppCompatActivity {
 
     CarDetail mCarDetail;
     CarOverview mCarOverview;
     UserReview mUserReview;
     Query mQueryOverview, mQueryDetail, mQueryReview;
     String user_id;
+
+
     @BindView(R.id.reviews_recycler_view)
     RecyclerView mReviewsRV;
     @BindView(R.id.engineering_mechanical_hidden_layout)
@@ -104,7 +106,6 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
         Intent mIntent = getIntent();
         String car_id = mIntent.getStringExtra("car_id");
         user_id = mIntent.getStringExtra("user_id");
-
         YouTubePlayerFragment mTrailerVideoFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.trailer_video_fragment);
 
         mQueryOverview = FirebaseDatabase.getInstance().getReference("car_overview").orderByChild("car_id").equalTo(car_id);
@@ -113,10 +114,63 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
         mQueryDetail.keepSynced(true);
         mQueryReview = FirebaseDatabase.getInstance().getReference("reviews").orderByChild("car_id").equalTo(car_id);
         mQueryReview.keepSynced(true);
+        mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
 
-        mTrailerVideoFragment.initialize(String.valueOf(R.string.my_youtube_api), this);
+                if (!b) {
+                    youTubePlayer.cueVideo(mCarDetail.getTest_drive_link());
+                }
+                youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(String s) {
+
+                    }
+
+                    @Override
+                    public void onAdStarted() {
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            youTubePlayer.setFullscreen(true);
+                        }
+                    }
+
+                    @Override
+                    public void onVideoStarted() {
+                        int orientation = getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            youTubePlayer.setFullscreen(true);
+                        }
+                    }
+
+                    @Override
+                    public void onVideoEnded() {
+
+                    }
+
+                    @Override
+                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                if (youTubeInitializationResult.isUserRecoverableError()) {
+                    youTubeInitializationResult.getErrorDialog(CarDetailActivity.this, 1).show();
+                } else {
+                    String errorMessage = String.format("There was an error initializing the YouTubePlayer (%1$s)", youTubeInitializationResult.toString());
+                    Toast.makeText(CarDetailActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
-
 
     private void populateOtherReviews(List<UserReview> mUserReviewList) {
         CarReviewsAdapter mCarReviewsAdapter = new CarReviewsAdapter(mUserReviewList);
@@ -162,11 +216,10 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
                         mCarOverview = snapshot.getValue(CarOverview.class);
                         populateOverview();
                         //CHECKING IF USER FAVORITE-D THE CAR
-                        if (snapshot.hasChild("users/"+user_id)){
+                        if (snapshot.hasChild("users/" + user_id)) {
                             mFavoriteBtn.setVisibility(View.GONE);
                             mCancelFavoriteBtn.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             mFavoriteBtn.setVisibility(View.VISIBLE);
                             mCancelFavoriteBtn.setVisibility(View.GONE);
                         }
@@ -221,12 +274,6 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
         });
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
     public void onExpandCollapseButtonMechanicalClicked(View view) {
 
         if (mExpandCollapseBtn.isChecked()) {
@@ -249,63 +296,19 @@ public class CarDetailActivity extends AppCompatActivity implements YouTubePlaye
             mHiddenConstraintLayout3.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
-        if (!b)
-            youTubePlayer.cueVideo(mCarDetail.getTest_drive_link());
-        youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-        youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-            @Override
-            public void onLoading() {
-
-            }
-
-            @Override
-            public void onLoaded(String s) {
-
-            }
-
-            @Override
-            public void onAdStarted() {
-
-            }
-
-            @Override
-            public void onVideoStarted() {
-
-            }
-
-            @Override
-            public void onVideoEnded() {
-
-            }
-
-            @Override
-            public void onError(YouTubePlayer.ErrorReason errorReason) {
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        if (youTubeInitializationResult.isUserRecoverableError()) {
-            youTubeInitializationResult.getErrorDialog(this, 1).show();
-        } else {
-            String errorMessage = String.format("There was an error initializing the YouTubePlayer (%1$s)", youTubeInitializationResult.toString());
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void onFavoriteFABClicked(View view) {
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/"+mCarOverview.getCar_id()+"/users/"+user_id);
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/" + mCarOverview.getCar_id() + "/users/" + user_id);
         mRef.setValue(Boolean.TRUE);
 
     }
 
     public void onCancelFavoriteFABClicked(View view) {
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/"+mCarOverview.getCar_id()+"/users/"+user_id);
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("car_overview/" + mCarOverview.getCar_id() + "/users/" + user_id);
         mRef.removeValue();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

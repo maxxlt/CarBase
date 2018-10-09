@@ -1,4 +1,4 @@
-package ru.maxlt.carbase;
+package ru.maxlt.carbase.data;
 
 public class UserReview {
     private String comment,thumbnail;

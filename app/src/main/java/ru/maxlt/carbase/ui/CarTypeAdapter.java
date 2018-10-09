@@ -1,5 +1,7 @@
-package ru.maxlt.carbase;
+package ru.maxlt.carbase.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,35 +15,37 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.maxlt.carbase.CarListActivity;
+import ru.maxlt.carbase.R;
 
-public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabsFragmentAdapter.ViewHolder> {
+public class CarTypeAdapter extends RecyclerView.Adapter<CarTypeAdapter.ViewHolder> {
+
+
     private List<Integer> mIconList;
     private List<String> mNameList;
-    private OnTabClickListener mTabClickListener;
+    private Context context;
+    private String uID;
 
-    public interface  OnTabClickListener {
-        void onTabClicked(int position);
+    public void setuID(String uID) {
+        this.uID = uID;
     }
 
-    public void setOnTabCLickListener(OnTabClickListener mTabClickListener){
-        this.mTabClickListener = mTabClickListener;
-    }
-
-    public CarTypeTabsFragmentAdapter() {
-    }
-
-    public void setmIconList(List<Integer> mIconList) {
-        this.mIconList = mIconList;
+    public CarTypeAdapter(Context context) {
+        this.context = context;
     }
 
     public void setmNameList(List<String> mNameList) {
         this.mNameList = mNameList;
     }
 
+    public void setmIconList(List<Integer> mIconList) {
+        this.mIconList = mIconList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_car_type_tabs_material,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_type_cardview, parent, false);
         return new ViewHolder(view);
     }
 
@@ -51,14 +55,18 @@ public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabs
         String nameString = mNameList.get(position);
         holder.mCarTypeIcon.setImageResource(resInt);
         holder.mCarTypeName.setText(nameString);
-        holder.mCarTypeCardView
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mTabClickListener.onTabClicked(holder.getAdapterPosition());
-                    }
-                });
+        //add Click Listener here
+        holder.mCarTypeCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(context,CarListActivity.class);
+                mIntent.putExtra("car_type_position",holder.getAdapterPosition());
+                mIntent.putExtra("user_id",uID);
+                //add animation here
 
+                context.startActivity(mIntent);
+            }
+        });
     }
 
     @Override
@@ -69,11 +77,11 @@ public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabs
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.car_type_cardview_tab)
+        @BindView(R.id.car_type_cardview)
         CardView mCarTypeCardView;
-        @BindView(R.id.car_type_name_tab)
+        @BindView(R.id.car_type_name)
         TextView mCarTypeName;
-        @BindView(R.id.car_type_icon_tab)
+        @BindView(R.id.car_type_icon)
         ImageView mCarTypeIcon;
 
         ViewHolder(View itemView) {
@@ -81,5 +89,4 @@ public class CarTypeTabsFragmentAdapter extends RecyclerView.Adapter<CarTypeTabs
             ButterKnife.bind(this, itemView);
         }
     }
-
 }
